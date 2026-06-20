@@ -1,0 +1,20 @@
+/node_modules
+/.next
+/out
+/build
+.DS_Store
+*.pem
+.vercel
+.env*.local
+next-env.d.ts
+
+# Internal working docs — not part of the public website
+_docs/
+_meta/
+tasks/
+ARCHITECTURE.md
+CLAUDE.md
+COMMIT.md
+START.md
+cPROMPTS.md
+*:Zone.Identifier
