@@ -1,6 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 export default function Nav() {
+  const { d } = useLanguage();
   return (
     <nav className="nav">
       <Link href="/" className="nav-brand">
@@ -9,9 +14,12 @@ export default function Nav() {
         <span>Remi</span>
       </Link>
       <div className="nav-links">
-        <Link href="/">Home</Link>
-        <Link href="/privacy">Privacy</Link>
-        <a href="mailto:juturna.ai@gmail.com">Contact</a>
+        <Link href="/">{d.nav.home}</Link>
+        <Link href="/about">{d.nav.about}</Link>
+        <a href="mailto:juturna.ai@gmail.com">{d.nav.contact}</a>
+      </div>
+      <div className="nav-right">
+        <LanguageSwitcher />
       </div>
     </nav>
   );

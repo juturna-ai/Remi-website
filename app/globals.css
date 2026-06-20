@@ -34,6 +34,12 @@ a {
   text-decoration: none;
 }
 
+::selection {
+  background: rgba(91, 123, 240, 0.35);
+  color: var(--text);
+  -webkit-text-fill-color: var(--text);
+}
+
 /* ---------- Navigation ---------- */
 .nav {
   position: sticky;
@@ -76,7 +82,7 @@ a {
 }
 
 .nav-links a {
-  color: var(--muted);
+  color: #ffffff;
   transition: color 0.18s ease;
 }
 
@@ -91,6 +97,96 @@ a {
   color: #fff !important;
   font-weight: 600;
   box-shadow: 0 6px 20px -6px rgba(91, 123, 240, 0.6);
+}
+
+/* Right column balances the brand; holds the language switcher. */
+.nav-right {
+  grid-column: 3;
+  justify-self: end;
+}
+
+/* ---------- Language switcher ---------- */
+.lang-switcher {
+  position: relative;
+}
+
+.lang-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.lang-trigger:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.lang-flag {
+  width: 22px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.lang-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lang-caret {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 10rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.3rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background: rgba(17, 20, 31, 0.97);
+  backdrop-filter: saturate(160%) blur(14px);
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.7);
+  z-index: 60;
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.lang-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lang-menu [aria-selected="true"] .lang-option {
+  background: rgba(91, 123, 240, 0.18);
 }
 
 /* ---------- Hero ---------- */
@@ -122,16 +218,37 @@ a {
 }
 
 .hero-logo {
-  width: clamp(110px, 16vw, 168px);
+  width: 270px;
   height: auto;
-  margin-bottom: 2rem;
   filter: drop-shadow(0 20px 50px rgba(91, 123, 240, 0.35));
   animation: float 6s ease-in-out infinite;
 }
 
+.hero-brand {
+  /* Pull up under the logo (cancels the logo's transparent PNG padding + lift) */
+  margin-top: -140px;
+  font-size: 63px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: linear-gradient(180deg, #ffffff, #c4ccea);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-tagline {
+  margin-top: 6px;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+}
+
+/* Logo is lifted by -84px; float bobs gently around that point. */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  0%, 100% { transform: translateY(-84px); }
+  50% { transform: translateY(-96px); }
 }
 
 .eyebrow {
@@ -148,23 +265,127 @@ a {
   margin-bottom: 1.6rem;
 }
 
-.hero h1 {
-  font-size: clamp(2.6rem, 7vw, 5rem);
-  line-height: 1.05;
+/* ---------- About ---------- */
+.about {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(4rem, 10vw, 7rem) clamp(1.25rem, 5vw, 4rem) 6rem;
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(91, 123, 240, 0.22), transparent 60%),
+    radial-gradient(700px 500px at 80% 30%, rgba(138, 108, 240, 0.16), transparent 55%),
+    var(--bg);
+}
+
+.about-intro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 60ch;
+}
+
+.about-logo {
+  width: clamp(76px, 12vw, 104px);
+  height: auto;
+  margin-bottom: 0.2rem;
+  filter: drop-shadow(0 14px 36px rgba(91, 123, 240, 0.4));
+  animation: float-soft 6s ease-in-out infinite;
+}
+
+.about-intro .eyebrow {
+  margin-bottom: 1.1rem;
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.about h1 {
+  font-size: clamp(2rem, 4.5vw, 3.1rem);
+  line-height: 1.08;
   font-weight: 800;
   letter-spacing: -0.03em;
-  max-width: 14ch;
+  max-width: 16ch;
   background: linear-gradient(180deg, #ffffff, #c4ccea);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.hero p.sub {
-  margin-top: 1.5rem;
-  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+.about p.sub {
+  margin: 1.25rem auto 0;
+  font-size: clamp(1rem, 2.2vw, 1.18rem);
   color: var(--muted);
+  max-width: 52ch;
+}
+
+/* About — feature grid */
+.about-features {
+  position: relative;
+  margin-top: clamp(3rem, 7vw, 5rem);
+  width: 100%;
+  max-width: 980px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.1rem;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.6rem 1.5rem;
+  text-align: left;
+  transition: border-color 0.18s ease, transform 0.18s ease,
+    background 0.18s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(91, 123, 240, 0.35);
+  background: rgba(91, 123, 240, 0.05);
+}
+
+.feature-card h3 {
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.55rem;
+}
+
+.feature-card p {
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+/* About — closing statement */
+.about-cta {
+  position: relative;
+  margin-top: clamp(3.5rem, 8vw, 5.5rem);
+  text-align: center;
   max-width: 56ch;
+}
+
+.about-cta h2 {
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.about-cta p {
+  margin: 1.1rem auto 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+}
+
+.about-cta .hero-actions {
+  margin-top: 2.2rem;
 }
 
 .hero-actions {
@@ -231,6 +452,7 @@ a {
 
 /* ---------- Footer ---------- */
 .footer {
+  position: relative;
   border-top: 1px solid var(--border);
   padding: 2rem clamp(1.25rem, 5vw, 4rem);
   display: flex;
@@ -244,6 +466,58 @@ a {
 
 .footer a:hover {
   color: var(--text);
+}
+
+/* "Powered by Juturna" — replicated from morrizen.io footer */
+.powered-by {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.powered-by a {
+  font-weight: 600;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(
+      90deg,
+      #4f7bd8,
+      #7a8fe8 15%,
+      #c7d4ff 30%,
+      #9aa8f0 45%,
+      #5a6fd0 60%,
+      #7a8fe8 75%,
+      #c7d4ff 90%,
+      #4f7bd8
+    )
+    0 0 / 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: brand-gradient-flow 45s linear infinite,
+    brand-brightness-pulse 10s ease-in-out infinite;
+}
+
+.powered-by a:hover {
+  color: transparent;
+  opacity: 0.8;
+}
+
+@keyframes brand-gradient-flow {
+  0% { background-position: 0; }
+  100% { background-position: 300%; }
+}
+
+@keyframes brand-brightness-pulse {
+  0%, 100% { filter: brightness(0.92); }
+  50% { filter: brightness(1.15); }
 }
 
 /* ---------- Legal / Privacy page ---------- */
